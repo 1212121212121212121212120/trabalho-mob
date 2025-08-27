@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futebol Mania - Tudo sobre o mundo da bola</title>
+    <style>
+        /* Reset e estilos base */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f0f0f0;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Cabeçalho */
+        header {
+            background: linear-gradient(to right, #006400, #003300);
+            color: white;
+            padding: 15px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo i {
+            margin-right: 10px;
+            font-size: 2rem;
+        }
+        
+        /* Menu de navegação mobile - ESTILOS ATUALIZADOS */
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        .menu-toggle span {
+            height: 3px;
+            width: 25px;
+            background: white;
+            margin: 3px 0;
+            border-radius: 2px;
+            transition: 0.3s;
+        }
+        
+        /* Transformar o hamburguer em X quando ativo */
+        .menu-toggle.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+        }
+        
+        .menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .menu-toggle.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+        }
+        
+        nav ul li {
+            margin-left: 20px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+            display: block;
+            padding: 5px 0;
+        }
+        
+        nav ul li a:hover {
+            color: #FFD700;
+        }
+        
+        /* Banner principal */
+        .banner {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23006400" fill-opacity="0.8"/><path d="M30,30 L70,30 L70,70 L30,70 Z" stroke="%23FFFFFF" stroke-width="2" fill="none"/><circle cx="50" cy="50" r="15" stroke="%23FFFFFF" stroke-width="2" fill="none"/></svg>') center/cover;
+            color: white;
+            text-align: center;
+            padding: 60px 20px;
+            margin-bottom: 30px;
+        }
+        
+        .banner h1 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        .banner p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        /* Seções */
+        .section {
+            padding: 40px 0;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #006400;
+            position: relative;
+        }
+        
+        .section-title:after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: #006400;
+            margin: 10px auto;
+        }
+        
+        /* Notícias */
+        .news-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .news-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s;
+        }
+        
+        .news-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .news-img {
+            height: 200px;
+            background: linear-gradient(to right, #006400, #003300);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 3rem;
+        }
+        
+        .news-content {
+            padding: 20px;
+        }
+        
+        .news-content h3 {
+            margin-bottom: 10px;
+            color: #006400;
+        }
+        
+        .news-content p {
+            margin-bottom: 15px;
+            color: #666;
+        }
+        
+        .read-more {
+            display: inline-block;
+            background: #006400;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: background 0.3s;
+        }
+        
+        .read-more:hover {
+            background: #004d00;
+        }
+        
+        /* Tabela de jogos */
+        .matches-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .matches-table th, .matches-table td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .matches-table th {
+            background: #006400;
+            color: white;
+        }
+        
+        .matches-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .team {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .team-logo {
+            width: 30px;
+            height: 30px;
+            background: #ddd;
+            border-radius: 50%;
+            margin: 0 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #333;
+        }
+        
+        /* Classificação */
+        .standings {
+            overflow-x: auto;
+        }
+        
+        .standings-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background: white;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            min-width: 600px;
+        }
+        
+        .standings-table th, .standings-table td {
+            padding: 12px 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+        
+        .standings-table th {
+            background: #006400;
+            color: white;
+        }
+        
+        .standings-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .team-name {
+            text-align: left;
+            display: flex;
+            align-items: center;
+        }
+        
+        .position {
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        
+        /* Estatísticas */
+        .stats-cards {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .stat-card i {
+            font-size: 2.5rem;
+            color: #006400;
+            margin-bottom: 15px;
+        }
+        
+        .stat-card h3 {
+            margin-bottom: 10px;
+            color: #006400;
+        }
+        
+        .stat-card p {
+            color: #666;
+        }
+        
+        /* Rodapé */
+        footer {
+            background: #003300;
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 40px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        
+        .footer-section h3 {
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+        
+        .footer-section h3:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 2px;
+            background: #FFD700;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+        
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: #FFD700;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        .social-links a {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            color: white;
+            transition: background 0.3s;
+        }
+        
+        .social-links a:hover {
+            background: #006400;
+        }
+        
+        .footer-bottom {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Media Queries para responsividade - ATUALIZADAS */
+        @media (min-width: 576px) {
+            .news-grid, .stats-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .banner h1 {
+                font-size: 2.8rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .stats-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (min-width: 992px) {
+            .news-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            
+            .stats-cards {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .menu-toggle {
+                display: flex;
+            }
+            
+            nav {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 80%;
+                height: calc(100vh - 70px);
+                background: #003300;
+                transition: 0.3s;
+                padding: 20px;
+                z-index: 99;
+                overflow-y: auto;
+            }
+            
+            nav.active {
+                left: 0;
+                box-shadow: 5px 0 15px rgba(0, 0, 0, 0.2);
+            }
+            
+            nav ul {
+                flex-direction: column;
+            }
+            
+            nav ul li {
+                margin: 15px 0;
+            }
+            
+            .matches-table th, .matches-table td {
+                padding: 10px 5px;
+                font-size: 0.9rem;
+            }
+            
+            .team {
+                flex-direction: column;
+            }
+            
+            .team-logo {
+                margin: 5px 0;
+            }
+            
+            /* Overlay para quando o menu estiver aberto */
+            .overlay {
+                display: none;
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: rgba(0, 0, 0, 0.5);
+                z-index: 98;
+            }
+            
+            .overlay.active {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <span>⚽</span> Futebol Mania
+            </div>
+            <div class="menu-toggle" id="menuToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+            <nav id="nav">
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Notícias</a></li>
+                    <li><a href="#">Tabela</a></li>
+                    <li><a href="#">Jogos</a></li>
+                    <li><a href="#">Estatísticas</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Overlay para fechar o menu ao clicar fora -->
+    <div class="overlay" id="overlay"></div>
+
+    <!-- Banner Principal -->
+    <section class="banner">
+        <div class="container">
+            <h1>Tudo sobre o mundo do futebol</h1>
+            <p>Fique por dentro das últimas notícias, jogos, estatísticas e muito mais do universo do futebol</p>
+        </div>
+    </section>
+
+    <!-- Seção de Notícias -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Últimas Notícias</h2>
+            <div class="news-grid">
+                <div class="news-card">
+                    <div class="news-img">📰</div>
+                    <div class="news-content">
+                        <h3>Time vence importante partida</h3>
+                        <p>Em uma partida eletrizante, o time conseguiu uma vitória crucial para o campeonato...</p>
+                        <a href="#" class="read-more">Leia mais</a>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-img">📰</div>
+                    <div class="news-content">
+                        <h3>Novo talento revelado</h3>
+                        <p>Jovem jogador de 17 anos se destaca em partida e chama a atenção de grandes clubes...</p>
+                        <a href="#" class="read-more">Leia mais</a>
+                    </div>
+                </div>
+                <div class="news-card">
+                    <div class="news-img">📰</div>
+                    <div class="news-content">
+                        <h3>Preparação para o grande clássico</h3>
+                        <p>Times se preparam para o clássico que pode definir o rumo do campeonato deste ano...</p>
+                        <a href="#" class="read-more">Leia mais</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Próximos Jogos -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Próximos Jogos</h2>
+            <table class="matches-table">
+                <thead>
+                    <tr>
+                        <th>Data</th>
+                        <th>Jogo</th>
+                        <th>Horário</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>12/06</td>
+                        <td>
+                            <div class="team">
+                                <span>Time A</span>
+                                <div class="team-logo">A</div>
+                                <span>vs</span>
+                                <div class="team-logo">B</div>
+                                <span>Time B</span>
+                            </div>
+                        </td>
+                        <td>16:00</td>
+                    </tr>
+                    <tr>
+                        <td>15/06</td>
+                        <td>
+                            <div class="team">
+                                <span>Time C</span>
+                                <div class="team-logo">C</div>
+                                <span>vs</span>
+                                <div class="team-logo">D</div>
+                                <span>Time D</span>
+                            </div>
+                        </td>
+                        <td>19:30</td>
+                    </tr>
+                    <tr>
+                        <td>18/06</td>
+                        <td>
+                            <div class="team">
+                                <span>Time E</span>
+                                <div class="team-logo">E</div>
+                                <span>vs</span>
+                                <div class="team-logo">F</div>
+                                <span>Time F</span>
+                            </div>
+                        </td>
+                        <td>21:00</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Seção de Classificação -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Classificação</h2>
+            <div class="standings">
+                <table class="standings-table">
+                    <thead>
+                        <tr>
+                            <th>Pos</th>
+                            <th>Time</th>
+                            <th>Pts</th>
+                            <th>J</th>
+                            <th>V</th>
+                            <th>E</th>
+                            <th>D</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td class="team-name"><span class="position">1</span> Time Campeão</td>
+                            <td>25</td>
+                            <td>10</td>
+                            <td>8</td>
+                            <td>1</td>
+                            <td>1</td>
+                        </tr>
+                        <tr>
+                            <td>2</td>
+                            <td class="team-name"><span class="position">2</span> Time Vice</td>
+                            <td>22</td>
+                            <td>10</td>
+                            <td>7</td>
+                            <td>1</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>3</td>
+                            <td class="team-name"><span class="position">3</span> Terceiro Colocado</td>
+                            <td>20</td>
+                            <td>10</td>
+                            <td>6</td>
+                            <td>2</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>4</td>
+                            <td class="team-name"><span class="position">4</span> Quarto Time</td>
+                            <td>18</td>
+                            <td>10</td>
+                            <td>5</td>
+                            <td>3</td>
+                            <td>2</td>
+                        </tr>
+                        <tr>
+                            <td>5</td>
+                            <td class="team-name"><span class="position">5</span> Quinto Time</td>
+                            <td>15</td>
+                            <td>10</td>
+                            <td>4</td>
+                            <td>3</td>
+                            <td>3</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Estatísticas -->
+    <section class="section">
+        <div class="container">
+            <h2 class="section-title">Estatísticas</h2>
+            <div class="stats-cards">
+                <div class="stat-card">
+                    <div>⚽</div>
+                    <h3>Artilheiros</h3>
+                    <p>Confira os jogadores com mais gols no campeonato</p>
+                </div>
+                <div class="stat-card">
+                    <div>🅰️</div>
+                    <h3>Assistências</h3>
+                    <p>Os maiores criadores de jogadas do campeonato</p>
+                </div>
+                <div class="stat-card">
+                    <div>🟨</div>
+                    <h3>Cartões</h3>
+                    <p>Estatísticas de cartões amarelos e vermelhos</p>
+                </div>
+                <div class="stat-card">
+                    <div>🧤</div>
+                    <h3>Defesas</h3>
+                    <p>Os goleiros dengan melhor desempenho</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rodapé -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Sobre Nós</h3>
+                    <p>O Futebol Mania traz as últimas notícias e informações sobre o mundo do futebol, para você ficar sempre por dentro de tudo que acontece.</p>
+                </div>
+                <div class="footer-section">
+                    <h3>Links Rápidos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Notícias</a></li>
+                        <li><a href="#">Tabela</a></li>
+                        <li><a href="#">Jogos</a></li>
+                        <li><a href="#">Estatísticas</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Redes Sociais</h3>
+                    <p>Nos acompanhe nas redes sociais</p>
+                    <div class="social-links">
+                        <a href="#">F</a>
+                        <a href="#">T</a>
+                        <a href="#">I</a>
+                        <a href="#">Y</a>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2023 Futebol Mania - Todos os direitos reservados</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Menu mobile toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const nav = document.getElementById('nav');
+        const overlay = document.getElementById('overlay');
+        
+        menuToggle.addEventListener('click', function() {
+            this.classList.toggle('active');
+            nav.classList.toggle('active');
+            overlay.classList.toggle('active');
+            
+            // Previne a rolagem da página quando o menu está aberto
+            if (nav.classList.contains('active')) {
+                document.body.style.overflow = 'hidden';
+            } else {
+                document.body.style.overflow = 'auto';
+            }
+        });
+        
+        // Fechar menu ao clicar em um link ou no overlay
+        function closeMenu() {
+            menuToggle.classList.remove('active');
+            nav.classList.remove('active');
+            overlay.classList.remove('active');
+            document.body.style.overflow = 'auto';
+        }
+        
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', closeMenu);
+        });
+        
+        overlay.addEventListener('click', closeMenu);
+        
+        // Fechar menu ao redimensionar a janela para tamanho maior
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                closeMenu();
+            }
+        });
+        
+        // Simular dados dinâmicos (em um site real, viria de uma API)
+        setTimeout(() => {
+            // Adicionar efeito de carregamento nas notícias
+            const newsCards = document.querySelectorAll('.news-card');
+            newsCards.forEach(card => {
+                card.style.opacity = '1';
+                card.style.transform = 'translateY(0)';
+            });
+        }, 300);
+    </script>
+</body>
+</html>
